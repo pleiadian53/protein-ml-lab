@@ -1,0 +1,65 @@
+name: protml
+
+# -----------------------------------------------------------------------------
+# protein-ml-lab — local smoke-test environment.
+#
+# Heavy training (full ESM-3B/15B, ESMFold, AlphaFold 2/3, RFdiffusion, Chroma)
+# runs on a remote pod (A40+ via SkyPilot / RunPod), NOT in this env. What lives
+# here is sized for the laptop loop:
+#   - small from-scratch checks (EGNN equivariance, IPA invariance, FAPE),
+#   - Phase 1 ESM `--selftest` paths,
+#   - Phase 1 small-model (8M / 35M) embedding + linear-probe runs once weights
+#     are downloaded.
+#
+# The bio toolchain (MMseqs2 / HHsuite / JackHMMER for MSA construction) is
+# deliberately deferred until Phase 2 needs MSAs — install on demand with
+# `mamba install -c bioconda mmseqs2 hhsuite hmmer`.
+#
+# Create / activate:
+#   mamba env create -f environment.yml
+#   mamba activate protml
+#
+# Inside the env, `uv pip install <pkg>` works for fast pure-Python installs
+# without leaving the mamba env.
+# -----------------------------------------------------------------------------
+
+channels:
+  - conda-forge
+  - bioconda
+
+dependencies:
+  - python=3.12
+  - pip
+
+  # Core scientific stack
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - seaborn
+  - tqdm
+
+  # Deep learning (CPU/MPS on macOS; CUDA on the pod — conda-forge handles both)
+  - pytorch>=2.4
+  - einops
+
+  # Config / experiment plumbing
+  - hydra-core
+  - omegaconf
+
+  # Notebooks
+  - jupyter
+  - jupyterlab
+  - ipykernel
+
+  # Tooling
+  - black
+  - ruff
+  - mypy
+  - pytest
+  - uv  # fast pip-compatible installer inside this env
+
+  # Pure-Python packages that are pip-only or fresher on PyPI
+  - pip:
+      - fair-esm  # Phase 1 ESM-2 weights + tokenizer
+      - biotite   # PDB / mmCIF parsing for the contact-map driver

@@ -1,0 +1,39 @@
+# --- Private scratch (per the project layout) ---
+dev/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+.env
+
+# --- Tooling caches ---
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# --- Model weights & data (large, not source) ---
+# ESM / torch hub checkpoints and downloaded structures/sequences.
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+data/
+weights/
+checkpoints/
+
+# --- OS / editor ---
+.DS_Store
+.idea/
+.vscode/
