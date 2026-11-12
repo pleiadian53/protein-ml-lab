@@ -1,16 +1,10 @@
 # protein-ml-lab
 
-A **depth-study sandbox for the full protein-ML stack** — protein language
-models (ESM), structure prediction (AlphaFold lineage), and generative design
-(RFdiffusion, ProteinMPNN, Chroma) — plus the cross-cutting frontier topics
-in biology foundation models: mechanistic interpretability, agentic systems
-over bio FMs, and scaling / RL post-training.
+protein-ml-lab develops new methods for modeling and designing proteins, built on the geometry that structure imposes. Protein structure lives on SE(3), the group of rotations and translations in three dimensions, and the state-of-the-art models for structure prediction and for protein and antibody design are built around how that group acts: equivariant layers, residue frames, frame-aligned losses. The lab works across the stack, from protein language models (ESM) to structure prediction in the AlphaFold lineage to generative design (RFdiffusion, ProteinMPNN, Chroma), together with the cross-cutting frontier questions in biology foundation models: mechanistic interpretability, agentic systems built over them, and scaling and RL post-training.
 
-Focus is **first-principles depth**: clean derivations, small from-scratch
-implementations that numerically verify the key properties (equivariance,
-invariance, frame-aligned losses), and reproducible drivers built against the
-real model APIs. Heavy training runs on a remote pod (A40+); everything in
-this repo is sized to smoke-test locally on a laptop.
+**Action operators against a known group.** The same mathematics, a Lie group acting on a state space with its Lie algebra supplying the infinitesimal view, underlies the action operators of two sibling projects. The idea originated in [GRL](https://github.com/pleiadian53/GRL), and [ssl-lab](https://github.com/pleiadian53/ssl-lab) uses it to model gene perturbations as actions on a cell's latent state. There the operators are learned from data, and nothing guarantees that they form a group. Here the group is given by physics, which makes this the place to develop action-operator theory and implementation against a case where the right answer is known: whether an operator learner recovers SO(3) or SE(3) structure when it is present, and which tools carry over to learned operators, from the exponential map and composition by the Baker–Campbell–Hausdorff formula to representation theory and equivariant layers.
+
+Methods are built from first principles: derivations written out, small implementations that numerically verify the properties they rely on (equivariance, invariance, frame-aligned losses), and drivers written against the real model APIs. Heavy training runs on a remote GPU pod (A40 or larger); everything in this repository is sized to smoke-test on a laptop.
 
 ## Scope
 
@@ -54,7 +48,7 @@ Status legend: ✅ verified · 🎯 active · 📝 planned.
 - `notebooks/<topic>/` — intuition / EDA notebooks, mirroring `examples/<topic>/`.
 - `docs/<topic>/` — per-phase write-ups: theory, derivations, results.
 
-A capability that matures beyond depth-study can graduate into a stable
+A capability that matures beyond a first implementation can graduate into a stable
 **application** under `src/protml/applications/<name>/` with its own write-up
 under `docs/applications/<name>.md`, and from there to a **product** under
 `docs/products/<name>/` once it has a stable public API, a benchmark, and a
